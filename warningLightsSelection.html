@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Mechanic AR</title>
+
+    <link rel="stylesheet" href="https://use.typekit.net/nky6crf.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/site.css">
+  </head>
+
+  <body>
+
+    <header class="header">
+      <p class="instructions instructionsSmall">Select the warning light you want to know more about</p>
+      <div class="headerInformation">
+        <h3>Low Oil Pressure</h3>
+        <p>The oil pressure is too low. Please check the oil level and refill oil as required</p>
+        <img src="img/oil.png">
+        <div class="buttons">
+          <a href="cameraAlignOil.html"><button class="button buttonPositive">Fix it!</button></a>
+        </div>
+        <button id="buttonBack" class="buttonBack"></button>
+      </div>
+    </header> 
+
+    <div class="container">
+
+      <div class="containerAR containerARdashboard">
+        <div class="interactionIndicator"></div>
+        <div class="interactionIndicator"></div>
+        <div class="interactionIndicator"></div>
+      </div>
+      <a href="problemFindingGuide.html">
+        <div class="buttonPrevious"><i data-feather="chevron-left"></i></div>
+      </a>
+
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.4/gsap.min.js"></script>
+    <script src="js/main.js"></script> 
+     
+  </body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Mechanic AR</title>
+
+    <link rel="stylesheet" href="https://use.typekit.net/nky6crf.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/site.css">
+  </head>
+
+  <body>
+
+    <div class="container containerYellow">
+
+      <h3>Road Trip Checkup</h3>
+      <p>Are you planning to go on a roadtrip? Follow these steps to be fully prepared.</p>
+      <form class="checkList"> 
+        <fieldset>
+          <ul>
+            <li> 
+              <input id="roadTrip1" type="checkbox" name="oilRefill" value="oilRefill" disabled>
+              <label for="roadTrip1">Oil Refill</label>
+            </li>
+            <li> 
+              <input id="roadTrip2" type="checkbox" name="coolant" value="coolant" disabled>
+              <label for="roadTrip2">Coolant</label>
+            </li>
+            <li>  
+              <input id="roadTrip3" type="checkbox" name="wiperFluid" value="wiperFluid" disabled>
+              <label for="roadTrip3">Wiper Fluid</label>
+            </li>
+            <li>  
+              <input id="roadTrip4" type="checkbox" name="tirePressure" value="tirePressure" disabled>
+              <label for="roadTrip4">Tire Pressure</label>
+            </li>
+          </ul> 
+        </fieldset> 
+      </form>
+      <div class="buttons">
+        <a href="oil.html"><button class="button buttonPositive">Start</button></a>
+        <a href="menu.html"><button class="button buttonNegative">Menu</button></a>
+      </div>
+
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.4/gsap.min.js"></script>
+    <script src="js/main.js"></script> 
+     
+  </body>
+
+</html>

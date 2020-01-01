@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Mechanic AR</title>
+
+    <link rel="stylesheet" href="https://use.typekit.net/nky6crf.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/site.css">
+  </head>
+
+  <body>
+
+    <header class="header">
+      <p class="instructions instructionsSmall">Select your Task</p>
+      <div class="headerInformation">
+        <h3>Oil Refill</h3>
+        <p>Check the oil level and refill oil if needed</p>
+        <img src="img/oil.png">
+        <div class="buttons buttonsDropDown">
+          <button id="buttonMoreInformation" class="button buttonPositive">Start</button>
+        </div>
+        <button id="buttonBack" class="buttonBack"></button>
+      </div>
+      <div class="headerMoreInformation">
+        <h3>Oil Refill</h3>
+        <p>You will need the following:</p>
+        <form class="checkList"> 
+          <fieldset>
+            <ul>
+              <li> 
+                <input id="oilRefill1" type="checkbox" name="oil" value="oil">
+                <label for="oilRefill1">5W-30 Oil</label>
+              </li>
+              <li> 
+                <input id="oilRefill2" type="checkbox" name="funnel" value="funnel">
+                <label for="oilRefill2">Funnel</label>
+              </li>
+              <li>  
+                <input id="oilRefill3" type="checkbox" name="cloth" value="cloth">
+                <label for="oilRefill3">Cloth</label>
+              </li>
+            </ul> 
+          </fieldset> 
+        </form>
+        <div class="buttons buttonsDropDown">
+          <a href="oilRefillStep1.html"><button class="button buttonPositive">Start</button></a>
+        </div>
+        <button id="buttonBackMore" class="buttonBack"></button>
+      </div>
+    </header>
+
+    <div class="container">
+
+      <div class="containerAR"></div>
+      <img class="tooltip tooltipBattery" src="img/tooltipBattery.png" alt="Battery Tooltip">
+      <img class="tooltip tooltipOil" src="img/tooltipOil.png" alt="Oil Tooltip">
+      <a href="cameraAlign.html">
+        <div class="buttonPrevious"><i data-feather="chevron-left"></i></div>
+      </a>
+
+
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.4/gsap.min.js"></script>
+    <script src="js/main.js"></script> 
+     
+  </body>
+
+</html>

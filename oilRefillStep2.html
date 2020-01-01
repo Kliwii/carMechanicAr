@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Mechanic AR</title>
+
+    <link rel="stylesheet" href="https://use.typekit.net/nky6crf.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/site.css">
+  </head>
+
+  <body>
+
+    <header class="header">
+      <p class="instructions instructionsSmall">Open this cap, place the funnel over the hole and refill the oil in small steps. Measure the oil again and repeat.</p>
+      <div class="headerInformation">
+        <h3>All done</h3>
+        <p>The oil should now be displayed between the two markers on the measuring stick</p>
+        <img src="img/thumbsUp.png">
+        <div class="buttons">
+          <a href="menu.html"><button class="button buttonPositive">Menu</button></a>
+        </div>
+        <button id="buttonBack" class="buttonBack"></button>
+      </div>
+    </header>
+
+    <div class="container">
+
+      <div class="containerAR"></div>
+      <div id="interactionIndicator"></div>
+      <a href="oilRefillStep1.html">
+        <div class="buttonPrevious"><i data-feather="chevron-left"></i></div>
+      </a>
+      <div class="pagination">
+        <span class="paginationTheme">Oil Refill</span>
+        <a href="oilRefillStep1.html"><span class="pnElement"><i data-feather="check"></i></span></a>
+        <span class="pnElement pnActive">2</span>
+      </div>
+
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.4/gsap.min.js"></script>
+    <script src="js/main.js"></script> 
+     
+  </body>
+
+</html>

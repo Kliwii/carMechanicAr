@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Mechanic AR</title>
+
+    <link rel="stylesheet" href="https://use.typekit.net/nky6crf.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/site.css">
+  </head>
+
+  <body>
+
+    <header class="header">
+      <p class="instructions instructionsSmall">Park the car on a flat surface and let the engine cool for 5 minutes. Turn and pull the yellow measuring stick.</p>
+      <div class="headerInformation">
+        <h3>Measure oil level</h3>
+        <p>Clean the stick with the cloth and put it back. Now pull the stick back out. If the oil is below this marker you need to refill.</p>
+        <img src="img/oilStick.png">
+        <div class="buttons">
+          <a href="oilRefillStep2.html"><button class="button buttonPositive">I need to refill</button></a>
+          <a href="menu.html"><button class="button buttonNegative">I don't need to refill</button></a>
+        </div>
+        <button id="buttonBack" class="buttonBack"></button>
+      </div>
+    </header>
+
+    <div class="container">
+
+      <div class="containerAR"></div>
+      <div id="interactionIndicator"></div>
+      <a href="menu.html">
+        <div class="buttonPrevious"><i data-feather="chevron-left"></i></div>
+      </a>
+      <div class="pagination">
+        <span class="paginationTheme">Oil Refill</span>
+        <span class="pnElement pnActive">1</span>
+        <a href="oilRefillStep2.html"><span class="pnElement">2</span></a>
+      </div>
+
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.4/gsap.min.js"></script>
+    <script src="js/main.js"></script> 
+     
+  </body>
+
+</html>

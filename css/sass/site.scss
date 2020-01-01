@@ -1,0 +1,1097 @@
+*,
+*::after,
+*::before {
+	box-sizing: border-box;
+}
+
+$colorYellow: #FFD164;
+$colorBlue: #4D7DF9;
+$colorGrey: #333333;
+$fontFamily: dapifer, serif;
+$fontFamily2: 'Lato', sans-serif;
+$fontSizeLarge: 36px;
+$fontSize: 24px;
+$fontSizeSmall: 20px;
+$fontSizeXSmall: 16px;
+
+body, html {
+    margin: 0;
+    padding: 0;
+    background: white;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    padding: 0 20px;
+    background: $colorYellow;
+    border-bottom-left-radius: 50% 40px;
+    border-bottom-right-radius: 50% 40px;
+    text-align: center;
+    z-index: 10;
+    font-family: $fontFamily;
+    font-weight: 400;
+    font-style: normal;
+    font-size: $fontSizeSmall;
+    line-height: 120%;
+
+    h3 {
+        font-family: $fontFamily2;
+        font-size: $fontSizeSmall;
+        font-weight: 700;
+    }
+
+    .instructions {
+        font-size: $fontSize;
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    .instructionsLarge {
+        font-size: $fontSizeLarge;
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    .instructionsSmall {
+        font-size: $fontSizeSmall;
+        padding: 20px;
+        margin-top: 10px;
+        line-height: 120%;
+    }
+
+    .logo {
+        display: block;
+        width: 70%;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    .headerInformation {
+        padding: 20px;
+
+        img {
+            width: 60%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    }
+
+    .headerMoreInformation {
+        padding: 20px;
+    }
+
+    .buttonBack {
+        position: absolute;
+        bottom: 20px;
+        left: 40%;
+        width: 20%;
+        height: 5px;
+        background: $colorGrey;
+        border: none;
+    }
+}
+
+.checkList {
+    font-family: $fontFamily2;
+    font-weight: 700;
+    margin-top: 20px;
+    text-align: left;
+            
+    fieldset {
+        border: none;
+
+        ul {
+            list-style-type: none;
+            list-style: none;
+            padding-left: 0;
+            margin-left: 15%;
+
+            li {
+                font-size: $fontSize;
+                margin: 20px 0;
+
+                label {
+                    margin-left: 40px;
+                }
+
+                input[type="checkbox"] {
+                    display:none;
+                }
+
+                input[type="checkbox"] + label::before {
+                    width: 30px;
+                    height: 30px;
+                    border: 5px solid $colorGrey;
+                    display: block;
+                    content: "";
+                    float: left;
+                }
+
+                input[type="checkbox"]:checked+label::before {
+                    box-shadow: inset 0px 0px 0px 3px $colorYellow;
+                    background-color: $colorGrey;
+                }
+            }
+        }
+    }
+}
+
+.buttons {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 60px;
+    width: calc(100% - 40px);
+
+    .buttonPositive {
+        width: 100%;
+        margin-top: 10px;
+        background: $colorBlue;
+        color: white;
+        border-radius: 20px;
+    }
+    
+    .buttonNegative {
+        width: 100%;
+        margin-top: 10px;
+        background: $colorGrey;
+        color: white;
+        border-radius: 20px;
+    }
+}
+
+.buttonsDropDown {
+    bottom: 80px;
+}
+
+.buttonsSound {
+    bottom: 60px;
+}
+
+.buttonPrevious {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: $colorYellow;
+
+    svg {
+        display: block;
+        color: $colorGrey;
+        height: 50px;
+        width: 37px;
+        text-align: center;
+        margin-left: 4px;
+    }
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    font-size: $fontSize;
+
+    h3 {
+        font-family: $fontFamily2;
+        font-size: $fontSize;
+        font-weight: 700;
+        padding: 0 20px;
+    }
+
+    p {
+        padding: 0 20px;
+        margin: 0;
+    }
+
+    .containerElement {
+        position: relative;
+        height: 22%;
+        margin: 20px 20px 0 20px;
+        border-radius: 20px;
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), $colorBlue), url("../img/taskSelection1.jpg");
+        background-size: cover;
+        background-position: 50% 50%;
+
+        .containerDescription {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: white;
+            font-family: $fontFamily2;
+            font-size: $fontSizeSmall;
+            font-weight: 700;
+        }
+    }
+
+    .menuElement:first-child {
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), $colorBlue), url("../img/taskSelection1.jpg");
+        margin-top: 170px;
+    }
+
+    .menuElement:nth-child(2) {
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), $colorBlue), url("../img/taskSelection2.jpg");
+    }
+
+    .menuElement:nth-child(3) {
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), $colorBlue), url("../img/taskSelection3.jpg");
+        margin-bottom: 20px;
+    }
+
+    .pfgElement:first-child {
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), $colorBlue), url("../img/problemFindingGuide1.jpg");
+        margin-top: 170px;
+    }
+
+    .pfgElement:nth-child(2) {
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), $colorBlue), url("../img/problemFindingGuide2.jpg");
+    }
+
+    .pfgElement:nth-child(3) {
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), $colorBlue), url("../img/problemFindingGuide3.jpg");
+        margin-bottom: 20px;
+    }
+
+    .mpElement {
+        margin: 20px 20px 0 20px;
+        padding: 20px;
+        border-radius: 20px;
+        background: $colorGrey;
+        color: white;
+        transition: all 0.4s;
+        text-align: center;
+        font-family: $fontFamily2;
+        font-size: $fontSizeSmall;
+        font-weight: 700;
+        text-decoration: none;
+
+        &:hover, &:active {
+            background: $colorYellow;
+            color: $colorGrey;
+        }
+
+        &:first-child {
+            margin-top: 170px;
+        }
+    }
+
+    .mpLast {
+        margin-bottom: 20px;
+    }
+
+    .containerAR {
+        width: 100%;
+        height: 100%;
+        display: block;
+        background-image: url("../img/engine.jpg");
+        background-position: 50% 50%;
+        background-size: cover;
+    }
+
+    .containerARscan {
+        background-image: url("../img/carScan.jpg");
+        background-position: 50% 50%;
+    }
+
+    .containerARdashboard {
+        background-image: url("../img/dashboard.jpg");
+        background-position: 67% 50%;
+    }
+
+    .scanIndicator {
+        width: 60vw;
+        height: 60vw;
+        position: absolute;
+        top: 40%;
+        left: 20vw;
+        z-index: 5;
+        border: dashed 5px $colorBlue;
+    }
+
+    #interactionIndicator {
+        position: absolute;
+        top: 50%;
+        left: 20%;
+        width: 100px;
+        height: 100px;
+        background: $colorYellow;
+        opacity: 0.6;
+        border-radius: 50%;
+    }
+
+    .interactionIndicator {
+        position: absolute;
+        top: 70%;
+        left: 33%;
+        width: 70px;
+        height: 70px;
+        background: $colorYellow;
+        opacity: 0.5;
+        border-radius: 50%;
+
+        &:nth-child(2) {
+            top: 63%;
+            left: 80%;
+        }
+
+        &:nth-child(3) {
+            top: 69%;
+            left: 80%;
+        }
+    }
+
+    .tooltip {
+        width: 140px;
+        height: auto;
+        position: absolute;
+    }
+
+    .tooltipBattery {
+        top: 30%;
+        right: 10%;
+    }
+
+    .tooltipOil {
+        top: 60%;
+        left: 20%;
+    }
+
+    .pagination {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        height: 50px;
+        background: $colorYellow;
+        border-radius: 20px;
+        padding: 7px 20px;
+        text-align: center;
+
+        .paginationTheme {
+            display: inline-block;
+            font-size: 16px;
+            font-family: $fontFamily2;
+            font-weight: 700;
+            margin-right: 20px;
+        }
+
+        .pnElement {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            padding: 4px;
+            border-radius: 50%;
+            background: $colorGrey;
+            color: $colorYellow;
+            vertical-align: middle;
+            font-size: 16px;
+            font-family: $fontFamily2;
+            font-weight: 700;
+
+            svg {
+                width: 18px;
+                height: 18px;
+                margin-top: 2px;
+            }
+        }
+
+        .pnActive {
+            width: 35px;
+            height: 35px;
+            padding: 6px;
+        }
+    }
+}
+
+.containerYellow {
+    background: $colorYellow;
+    text-align: center;
+    font-family: $fontFamily;
+    color: $colorGrey;
+    padding: 40px 20px 20px 20px;
+
+    img {
+        width: 70%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+}
+
+.containerStart {
+    background: $colorYellow;
+
+    .logo {
+        width: 80%;
+        height: auto;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.containerSelection {
+
+    a {
+        text-decoration: none;
+        text-align: center;
+        font-family: $fontFamily2;
+        color: $colorGrey;
+        font-weight: 700;
+
+        &:first-child {
+            margin-top: 150px;
+        }
+
+        img {
+            display: block;
+            width: 80%;
+            height: auto;
+            margin: 0 auto;
+            padding: 20px 0 0 0;
+        }
+    }
+
+    .buttonPlus {
+        position: absolute;
+        bottom: 60px;
+        left: calc(50% - 25px);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin: 0 auto;
+        background: $colorBlue;
+        color: white;
+        padding: 0;
+    }
+}
+
+.recordButton {
+    display: block;
+    position: relative;
+    margin: 200px auto 20px auto;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: $colorGrey;
+    box-shadow: 0px 0px 5px 0px rgba(255,209,100,1);
+
+    svg {
+        position: absolute;
+        top: calc(50% - 40px);
+        left: calc(50% - 40px);
+        width: 80px;
+        height: 80px;
+        color: $colorYellow;
+    }
+}
+
+.recordMore {
+    font-family: $fontFamily2;
+    margin: 0 auto;
+    text-align: center;
+
+    p {
+        font-size: $fontSize;
+
+        span {
+            display: block;
+            font-size: 14px;
+        }
+    }
+}
+
+.button {
+    text-align: center;
+    padding: 10px 20px;
+    border: none;
+    font-size: $fontSizeSmall;
+    font-family: $fontFamily2;
+    font-weight: 700;
+
+    svg {
+        height: 25px;
+        width: 25px;
+        text-align: center;
+        margin: 0 auto;
+        padding: 0;
+    }
+}
+
+.carInformation {
+    font-family: $fontFamily2;
+    font-size: $fontSizeSmall;
+
+    img {
+        display: block;
+        width: 80%;
+        height: auto;
+        margin: 200px auto 0 auto;
+    }
+ 
+    .ciDescription {
+        display: inline-block;
+        width: 50%;
+        text-align: right;
+        list-style-type: none;
+        padding: 0 20px;
+        border-right: 5px solid $colorGrey;
+        font-weight: 400;
+    }
+
+    .ciInformation {
+        display: inline-block;
+        width: 40%;
+        text-align: left;
+        list-style-type: none;
+        padding: 0 20px;
+        font-weight: 700;
+    }
+}
+
+@media screen and (max-width: 375x) and (orientation: portrait), screen and (max-height: 667px) and (orientation: portrait) {
+
+    header {
+
+        .headerInformation {
+            font-size: $fontSizeXSmall;
+            line-height: 120%;
+        }
+
+        .headerMoreInformation {
+            font-size: $fontSizeXSmall;
+            line-height: 120%;
+        }
+
+        .instructions {
+            font-size: $fontSizeSmall;
+        }
+
+        .instructionsLarge {
+            font-size: $fontSize;
+        }
+
+        .instructionsSmall {
+            font-size: $fontSizeXSmall;
+        }
+
+        .logo {
+            width: 80%;
+        }
+    }
+
+    .buttons {
+        bottom: 40px;
+    }
+
+    .container {
+        font-size: $fontSizeXSmall;
+
+        h3 {
+            font-size: $fontSizeSmall;
+        }
+
+        .containerElement {
+        
+            .containerDescription {
+                font-size: $fontSizeXSmall;
+            }
+        }
+
+        .mpElement {
+            font-size: $fontSizeXSmall;
+
+            p {
+                padding: 0;
+            }
+        }
+
+        .tooltip {
+            width: 120px;
+        }
+    }
+
+    .containerYellow {
+        padding: 20px;
+    }
+    
+    .containerSelection {
+
+        a {
+
+            img {
+                width: 70%;
+            }
+        }
+
+        .buttonPlus {
+            bottom: 40px;
+        }
+    }
+
+    .checkList {
+        margin-top: 0;
+
+        fieldset {
+    
+            ul {
+    
+                li {
+                    font-size: $fontSizeSmall;
+
+                    label {
+                        margin-left: 20px;
+                    }
+                }
+            }
+        }
+    }
+
+    .button {
+        font-size: $fontSizeXSmall;
+    }
+
+    .carInformation {
+    
+        img {
+            width: 80%;
+            margin: 160px auto 0 auto;
+        }
+    }
+
+    .recordButton {
+        margin: 180px auto 20px auto;
+        width: 160px;
+        height: 160px;
+    
+        svg {
+            position: absolute;
+            top: calc(50% - 30px);
+            left: calc(50% - 30px);
+            width: 60px;
+            height: 60px;
+            color: $colorYellow;
+        }
+    }
+
+    .recordMore {
+    
+        p {
+            font-size: $fontSizeSmall;
+    
+            span {
+                display: block;
+                font-size: 12px;
+            }
+        }
+    }
+
+    .carInformation {
+        font-size: $fontSizeXSmall;
+    }
+}
+
+
+@media screen and (orientation: landscape) {
+
+    header {
+        height: 120px;
+
+        .logo {
+            display: block;
+            width: 30%;
+            height: auto;
+            margin: 0 auto;
+        }
+
+        .headerInformation {
+
+            h3 {
+                width: 50%;
+            }
+
+            p {
+                width: 50%;
+                margin-bottom: 0;
+            }
+    
+            img {
+                width: 20%;
+                margin: 0 0 0 calc(25% - 70px);
+            }
+        }
+
+        .headerMoreInformation {
+
+            h3 {
+                width: 50%;
+            }
+
+            p {
+                width: 50%;
+                margin-bottom: 0;
+            }
+    
+            img {
+                width: 20%;
+                margin: 0 0 0 calc(25% - 70px);
+            }
+
+            .checkList {
+                width: 50%;
+            }
+        }
+    }
+
+    .container {
+        flex-direction: row;
+        font-size: $fontSizeSmall;
+
+        .containerElement {
+            width: 100%;
+            height: auto;
+            margin: 140px 10px 20px 10px;
+    
+            .containerDescription {
+                bottom: auto;
+                right: auto;
+                top: 20px;
+                left: 20px;
+            }
+        }
+
+        .menuElement:first-child {
+            margin-top: 140px;
+            margin-left: 20px;
+        }
+
+        .menuElement:nth-child(3) {
+            margin-right: 20px;
+        }
+    
+        .pfgElement:first-child {
+            margin-top: 140px;
+            margin-left: 20px;
+        }
+
+        .pfgElement:nth-child(3) {
+            margin-right: 20px;
+        }
+
+        .containerARscan {
+            background-position: 50% 80%;
+        }
+
+        .scanIndicator {
+            width: 50vh;
+            height: 50vh;
+            position: absolute;
+            top: 150px;
+            left: calc(50% - 25vh);
+        }
+
+        .interactionIndicator {
+            left: 53%;
+    
+            &:nth-child(2) {
+                top: 63%;
+                left: 70%;
+            }
+    
+            &:nth-child(3) {
+                top: 69%;
+                left: 71%;
+            }
+        }
+
+        .mpElement {
+    
+            &:first-child {
+                margin-top: 140px;
+            }
+        }
+    }
+
+    .mpContainer {
+        flex-direction: column;
+    }
+
+    .containerStart {
+    
+        .logo {
+            width: 50%;
+        }
+    }
+
+    .containerYellow {
+        flex-direction: column;
+        
+        h3 {
+            width: 50%;
+        }
+        
+        p {
+            width: 50%;
+        }
+
+        .checkList {
+            width: 50%;
+
+            fieldset {
+
+                ul {
+                    margin-left: 15%;
+                }
+            }
+        }
+    
+        img {
+            width: 20%;
+            margin: 20px 20px 20px calc(25% - 74px);
+        }
+    }
+
+    .containerSelection {
+
+        a {
+            width: 50%;
+            display: inline-block;
+            margin-top: 140px;
+    
+            &:first-child {
+                margin-top: 140px;
+                margin-left: 20px;
+            }
+
+            &:last-child {
+                margin-top: 140px;
+                margin-right: 20px;
+            }
+
+            img {
+                width: 100%;
+            }
+        }
+    
+        .buttonPlus {
+            position: static;
+            margin-top: 60px;
+        }
+    }
+
+    .carInformation {
+        width: 50%;
+        display: inline-block;
+    
+        img {
+            margin: 120px auto 0 auto;
+        }
+     
+        .ciDescription {
+            width: 50%;
+        }
+    
+        .ciInformation {
+            width: 50%;
+        }
+    }
+
+    .buttons {
+        top: calc(50% - 54px);
+        right: 0;
+        left: auto;
+        bottom: auto;
+        width: 50%;
+        padding: 0 20px;
+    }
+
+    .buttonsSound {
+        top: 55%;
+    }
+
+    .checkList {
+        margin-top: 0;
+        width: 50%;
+                
+        fieldset {
+    
+            ul {
+                margin-left: 20%;
+    
+                li {
+                    font-size: $fontSizeSmall;
+                    margin: 10px 0;
+                }
+            }
+        }
+    }
+
+    .recordButton {
+        margin: 160px 20px 20px calc(25% - 100px);
+    }
+
+    .recordMore {
+        position: absolute;
+        top: 160px;
+        right: calc(25% - 125px);
+    
+        p {
+            font-size: $fontSize;
+    
+            span {
+                display: block;
+                font-size: 14px;
+            }
+        }
+    }
+
+    @media (max-width: 375x), (max-height: 667px) {
+
+        header {
+            height: 100px;
+            font-size: $fontSizeXSmall;
+
+            .instructions {
+                font-size: $fontSizeSmall;
+                margin-top: 10px;
+            }
+
+            .instructionsSmall {
+                font-size: $fontSizeXSmall;
+            }
+
+            .instructionsLarge {
+                font-size: $fontSize;
+            }
+    
+            .logo {
+                width: 35%;
+            }
+
+            .headerInformation {
+
+                img {
+                    margin: 0px 0 0 calc(25% - 48px);
+                }
+            }
+        }
+
+        .checkList {
+                    
+            fieldset {
+        
+                ul {
+                    margin-left: 15%;
+        
+                    li {
+                        font-size: $fontSizeXSmall;
+
+                        label {
+                            margin-left: 20px;
+                        }
+
+                        input[type="checkbox"] + label::before {
+                            width: 25px;
+                            height: 25px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .buttons {
+            top: calc(50% - 49px);
+        }
+
+        .buttonsSound {
+            top: 55%;
+        }
+
+        .button {
+            font-size: $fontSizeXSmall;
+        }
+
+        .container {
+            font-size: $fontSizeXSmall;
+    
+            .containerElement {
+                margin: 120px 10px 20px 10px;
+            }
+    
+            .menuElement:first-child {
+                margin-top: 120px;
+            }
+        
+            .pfgElement:first-child {
+                margin-top: 120px;
+            }
+
+            .scanIndicator {
+                top: 120px;
+            }
+
+            .tooltip {
+                width: 100px;
+            }
+
+            h3 {
+                font-size: $fontSizeSmall;
+            }
+        }
+
+        .containerYellow {
+            padding: 20px;
+
+            img {
+                margin: 20px 20px 20px calc(25% - 52px);
+            }
+        }
+
+        .carInformation {
+            font-size: $fontSizeXSmall;
+        
+            img {
+                margin: 100px auto 0 auto;
+            }
+         
+            .ciDescription {
+                margin-top: 0;
+            }
+        
+            .ciInformation {
+                margin-top: 0;
+            }
+        }
+
+        .recordButton {
+            margin: 120px 20px 20px calc(25% - 80px);
+            height: 160px;
+            width: 160px;
+
+            svg {
+                top: calc(50% - 30px);
+                left: calc(50% - 30px);
+                width: 60px;
+                height: 60px;
+            }
+        }
+    
+        .recordMore {
+            position: absolute;
+            top: 120px;
+            right: calc(25% - 107px);
+        
+            p {
+                font-size: $fontSizeSmall;
+            }
+        }
+    }
+}
