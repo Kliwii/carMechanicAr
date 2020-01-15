@@ -1,50 +1,211 @@
 <!DOCTYPE html>
-<html>
-
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <title>Car Mechanic AR</title>
-
+    
+	<!--include styles-->
     <link rel="stylesheet" href="https://use.typekit.net/nky6crf.css">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/site.css">
-  </head>
+	<!-- include three.js library -->
+	<script src='js/three.js'></script>
+	<!-- include jsartookit -->
+    <script src="js/jsartoolkit5/build/artoolkit.min.js"></script>
+    <script src="js/jsartoolkit5/js/artoolkit.api.js"></script>
+	<!-- include threex.artoolkit -->
+	<script src="js/arJs/three.js/src/threex/threex-artoolkitsource.js"></script>
+    <script src="js/arJs/three.js/src/threex/threex-artoolkitcontext.js"></script>
+    <script src="js/arJs/three.js/src/threex/threex-arbasecontrols.js"></script>
+    <script src="js/arJs/three.js/src/threex/threex-armarkercontrols.js"></script>
+	<!--GLTF LOADER-->
+	<script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
+</head>
 
-  <body>
+<body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
+	<header class="header">
+		<p class="instructions instructionsSmall">Park the car on a flat surface and let the engine cool for 5 minutes. Turn and pull the yellow measuring stick.</p>
+		<div class="headerInformation">
+		  <h3>Measure oil level</h3>
+		  <p>Clean the stick with the cloth and put it back. Now pull the stick back out. If the oil is below this marker you need to refill.</p>
+		  <img src="img/oilStick.png">
+		  <div class="buttons">
+			<button class="button buttonPositive" onclick="window.location.href = 'oilRefillStep2.html'">I need to refill</button>
+			<button class="button buttonNegative" onclick="window.location.href = 'menu.html'">I don't need to refill</button>
+		  </div>
+		  <button id="buttonBack" class="buttonBack"></button>
+		</div>
+	  </header>
+  
+  
+		<div id="interactionIndicator"></div>
+		<a href="menu.html">
+		  <div class="buttonPrevious"><i data-feather="chevron-left"></i></div>
+		</a>
+		<div class="pagination">
+		  <span class="paginationTheme">Oil Refill</span>
+		  <span class="pnElement pnActive">1</span>
+		  <a href="oilRefillStep2.html"><span class="pnElement">2</span></a>
+		</div>
+  
+	  
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.4/gsap.min.js"></script>
+	  <script src="js/main.js"></script> 
 
-    <header class="header">
-      <p class="instructions instructionsSmall">Park the car on a flat surface and let the engine cool for 5 minutes. Turn and pull the yellow measuring stick.</p>
-      <div class="headerInformation">
-        <h3>Measure oil level</h3>
-        <p>Clean the stick with the cloth and put it back. Now pull the stick back out. If the oil is below this marker you need to refill.</p>
-        <img src="img/oilStick.png">
-        <div class="buttons">
-          <a href="oilRefillStep2.html"><button class="button buttonPositive">I need to refill</button></a>
-          <a href="menu.html"><button class="button buttonNegative">I don't need to refill</button></a>
-        </div>
-        <button id="buttonBack" class="buttonBack"></button>
-      </div>
-    </header>
+<script>
+// init renderer
+    var renderer	= new THREE.WebGLRenderer({
+		antialias	: true,
+		alpha: true
+	});
+	renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.domElement.style.position = 'absolute'
+	renderer.domElement.style.top = '0px'
+	renderer.domElement.style.left = '0px'
+	document.body.appendChild( renderer.domElement );
 
-    <div class="container">
+	var targets = [];
 
-      <div class="containerAR"></div>
-      <div id="interactionIndicator"></div>
-      <a href="menu.html">
-        <div class="buttonPrevious"><i data-feather="chevron-left"></i></div>
-      </a>
-      <div class="pagination">
-        <span class="paginationTheme">Oil Refill</span>
-        <span class="pnElement pnActive">1</span>
-        <a href="oilRefillStep2.html"><span class="pnElement">2</span></a>
-      </div>
+	// array of functions for the rendering loop
+	var onRenderFcts= [];
 
-    </div>
+	// init scene and camera
+	var scene	= new THREE.Scene();
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		Initialize a basic camera
+	//////////////////////////////////////////////////////////////////////////////////
+
+	// Create a camera
+	var camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
+	scene.add(camera);
+	
+	////////////////////////////////////////////////////////////
+	// setup arToolkitSource
+	////////////////////////////////////////////////////////////
+	arToolkitSource = new THREEx.ArToolkitSource({
+		sourceType : 'webcam',
+    });
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.4/gsap.min.js"></script>
-    <script src="js/main.js"></script> 
+    arToolkitSource.init(function onReady(){
+		onResize()
+	});
+
+	// handle resize
+	window.addEventListener('resize', function(){
+		onResize()
+	})
+	function onResize(){
+		arToolkitSource.onResizeElement()
+		arToolkitSource.copyElementSizeTo(renderer.domElement)
+		if( arToolkitContext.arController !== null ){
+			arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas)
+		}
+	}
+	
+	////////////////////////////////////////////////////////////
+	// setup arToolkitContext
+	////////////////////////////////////////////////////////////	
+	// create atToolkitContext
+	arToolkitContext = new THREEx.ArToolkitContext({
+		cameraParametersUrl: 'js/arJS/data/data/camera_para.dat',
+		detectionMode: 'mono'
+	});
+	
+	// copy projection matrix to camera when initialization complete
+	arToolkitContext.init( function onCompleted(){
+		camera.projectionMatrix.copy( arToolkitContext.getProjectionMatrix() );
+    });
+    
+    // update artoolkit on every frame
+	onRenderFcts.push(function(){
+		if( arToolkitSource.ready === false )	return
+
+		arToolkitContext.update( arToolkitSource.domElement )
+    })
+    
+	;(function(){
+
+//////////////////////////////////////////////////////////////////////////////
+//		markerRoot2
+//////////////////////////////////////////////////////////////////////////////
+// build markerControls
+var markerRoot2 = new THREE.Group
+markerRoot2.name = 'marker2'
+scene.add(markerRoot2)
+var markerControls = new THREEx.ArMarkerControls(arToolkitContext, markerRoot2, {
+    type : 'pattern',
+    //patternUrl : 'js/arJs/data/data/patt.hiro',
+	patternUrl : 'js/jsartoolkit5/examples/Data/multi/patt.d',
+})
+
+// add a yellow circle in the center of the marker
+var geometry = new THREE.CircleGeometry(2, 10);
+var material = new THREE.MeshBasicMaterial( { 
+  color: 0xffff00,
+  opacity: 0.5, 
+} );
+var mesh	= new THREE.Mesh( geometry, material );
+// if openNav not working, try moreInformation
+mesh.callback = function() { 
+	console.log("Clicked on the marker thing");
+	openNav();
+}
+targets.push(mesh);
+markerRoot2.add( mesh );
+})() // end of strange function
+
+onRenderFcts.push(function(){
+		renderer.render( scene, camera );
+	})
+
+	// For raycasting
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
+
+function onDocumentMouseDown( event ) {
+
+	// Works
+	console.log("Something was clicked")
+
+    event.preventDefault();
+
+    mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+
+    raycaster.setFromCamera( mouse, camera );
+
+    var intersects = raycaster.intersectObjects( targets ); 
+
+    for ( var i = 0; i < intersects.length; i++ ) {
+
+
+        intersects[i].object.callback();
+
+    }
+
+}
+
+	// run the rendering loop
+	var lastTimeMsec= null
+	requestAnimationFrame(function animate(nowMsec){
+		// keep looping
+		requestAnimationFrame( animate );
+		// measure time
+		lastTimeMsec	= lastTimeMsec || nowMsec-1000/60
+		var deltaMsec	= Math.min(200, nowMsec - lastTimeMsec)
+		lastTimeMsec	= nowMsec
+		// call each update function
+		onRenderFcts.forEach(function(onRenderFct){
+			onRenderFct(deltaMsec/1000, nowMsec/1000)
+		})
+  })
+  
+// Add Event Listener for CLICK
+window.addEventListener( 'click', onDocumentMouseDown, false );
+
+</script>
      
   </body>
 

@@ -1,38 +1,284 @@
 <!DOCTYPE html>
-<html>
-
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <title>Car Mechanic AR</title>
-
+    
+	<!--include styles-->
     <link rel="stylesheet" href="https://use.typekit.net/nky6crf.css">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/site.css">
-  </head>
+	<!-- include three.js library -->
+	<script src='js/three.js'></script>
+	<!-- include jsartookit -->
+    <script src="js/jsartoolkit5/build/artoolkit.min.js"></script>
+    <script src="js/jsartoolkit5/js/artoolkit.api.js"></script>
+	<!-- include threex.artoolkit -->
+	<script src="js/arJs/three.js/src/threex/threex-artoolkitsource.js"></script>
+    <script src="js/arJs/three.js/src/threex/threex-artoolkitcontext.js"></script>
+    <script src="js/arJs/three.js/src/threex/threex-arbasecontrols.js"></script>
+    <script src="js/arJs/three.js/src/threex/threex-armarkercontrols.js"></script>
+	<!--GLTF LOADER-->
+	<script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
+</head>
 
-  <body>
+<body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
+	<header class="header">
+		<p class="instructions instructionsSmall">Select your Task</p>
+		<div class="headerInformation">
+		  <h3>Oil Refill</h3>
+		  <p>Check the oil level and refill oil if needed</p>
+		  <img src="img/oil.png">
+		  <div class="buttons buttonsDropDown">
+			<button id="buttonMoreInformation" class="button buttonPositive">Start</button>
+		  </div>
+		  <button id="buttonBack" class="buttonBack"></button>
+		</div>
+		<div class="headerMoreInformation">
+		  <h3>Oil Refill</h3>
+		  <p>You will need the following:</p>
+		  <form class="checkList"> 
+			<fieldset>
+			  <ul>
+				<li> 
+				  <input id="oilRefill1" type="checkbox" name="oil" value="oil">
+				  <label for="oilRefill1">5W-30 Oil</label>
+				</li>
+				<li> 
+				  <input id="oilRefill2" type="checkbox" name="funnel" value="funnel">
+				  <label for="oilRefill2">Funnel</label>
+				</li>
+				<li>  
+				  <input id="oilRefill3" type="checkbox" name="cloth" value="cloth">
+				  <label for="oilRefill3">Cloth</label>
+				</li>
+			  </ul> 
+			</fieldset> 
+		  </form>
+		  <div class="buttons buttonsDropDown">
+			
+				<button class="button buttonPositive" onclick="window.location.href = 'oilRefillStep1.html'">Start</button>
+			
+		  </div>
+		  <button id="buttonBackMore" class="buttonBack"></button>
+		</div>
+	  </header>
+		<a href="taskSelection.html">
+		  <div class="scanIndicator"></div>
+		</a>
+		<a href="menu.html">
+		  <div class="buttonPrevious"><i data-feather="chevron-left"></i></div>
+		</a>
 
-    <header class="header">
-      <p class="instructions instructionsSmall">Open the hood of your car and point the camera towards the engine</p>
-    </header>
+<script>
+// init renderer
+    var renderer	= new THREE.WebGLRenderer({
+		antialias	: true,
+		alpha: true
+	});
 
-    <div class="container">
+	var targets = [];
+/*
+	const canvas = document.getElementById('c');
+  	const renderer = new THREE.WebGLRenderer({
+		  canvas,
+		  antialias: true,
+		  alpha:true
+		  });*/
 
-      <div class="containerAR"></div>
-      <a href="taskSelection.html">
-        <div class="scanIndicator"></div>
-      </a>
-      <a href="menu.html">
-        <div class="buttonPrevious"><i data-feather="chevron-left"></i></div>
-      </a>
+	
+	renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.domElement.style.position = 'absolute';
+	renderer.domElement.style.top = '0px';
+	renderer.domElement.style.left = '0px';
+	document.body.appendChild( renderer.domElement ); 
 
-    </div>
+	// array of functions for the rendering loop
+	var onRenderFcts= [];
+
+	// init scene and camera
+	var scene	= new THREE.Scene();
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		Initialize a basic camera
+	//////////////////////////////////////////////////////////////////////////////////
+
+	// Create a camera COMMENT IN ADD CAMERA???
+	var camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
+	//camera.position.set( 0, 300, 500 );
+	scene.add(camera);
+	
+	////////////////////////////////////////////////////////////
+	// setup arToolkitSource
+	////////////////////////////////////////////////////////////
+	arToolkitSource = new THREEx.ArToolkitSource({
+		sourceType : 'webcam',
+    });
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.4/gsap.min.js"></script>
-    <script src="js/main.js"></script> 
-     
-  </body>
+    arToolkitSource.init(function onReady(){
+		onResize()
+	});
 
+	// handle resize
+	window.addEventListener('resize', function(){
+		onResize()
+	})
+	function onResize(){
+		arToolkitSource.onResizeElement()
+		arToolkitSource.copyElementSizeTo(renderer.domElement)
+		if( arToolkitContext.arController !== null ){
+			arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas)
+		}
+	}
+	
+	////////////////////////////////////////////////////////////
+	// setup arToolkitContext
+	////////////////////////////////////////////////////////////	
+	// create atToolkitContext
+	arToolkitContext = new THREEx.ArToolkitContext({
+		cameraParametersUrl: 'js/arJS/data/data/camera_para.dat',
+		detectionMode: 'mono'
+	});
+	
+	// copy projection matrix to camera when initialization complete
+	arToolkitContext.init( function onCompleted(){
+		camera.projectionMatrix.copy( arToolkitContext.getProjectionMatrix() );
+    });
+    
+    // update artoolkit on every frame
+	onRenderFcts.push(function(){
+		if( arToolkitSource.ready === false )	return
+
+		arToolkitContext.update( arToolkitSource.domElement )
+    })
+    
+	;(function(){
+
+//////////////////////////////////////////////////////////////////////////////
+//		markerRoot1
+//////////////////////////////////////////////////////////////////////////////
+
+// build markerControls
+var markerRoot1 = new THREE.Group
+markerRoot1.name = 'marker1'
+scene.add(markerRoot1)
+var markerControls = new THREEx.ArMarkerControls(arToolkitContext, markerRoot1, {
+    type : 'pattern',
+    patternUrl : 'js/arJs/data/data/patt.hiro',
+    // patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji',
+})
+
+var loader = new THREE.TextureLoader();
+
+// Load an image file into a custom material
+var material = new THREE.MeshLambertMaterial({
+  map: loader.load('img/tooltipOilSmall.png')
+});
+var geometry = new THREE.PlaneGeometry(5, 5, 1, 1);
+var mesh = new THREE.Mesh(geometry, material);
+mesh.scale.set(0.4, 0.4, 0.4);
+//mesh1.position.set(0,0,0);
+mesh.callback = function() { 
+	console.log("Clicked on the marker thing");
+	openNav();
+}
+targets.push(mesh);
+markerRoot1.add(mesh);
+// so image isnt black
+var light = new THREE.PointLight( 0xffffff, 1, 0 );
+light.position.set(1, 1, 100 );
+markerRoot1.add(light);
+
+//////////////////////////////////////////////////////////////////////////////
+//		markerRoot2
+//////////////////////////////////////////////////////////////////////////////
+
+// build markerControls
+var markerRoot2 = new THREE.Group
+markerRoot2.name = 'marker2'
+scene.add(markerRoot2)
+var markerControls = new THREEx.ArMarkerControls(arToolkitContext, markerRoot2, {
+    type : 'pattern',
+    // patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.hiro',
+    patternUrl : 'js/arJs/data/data/patt.kanji',
+})
+
+var loader = new THREE.TextureLoader();
+
+// Load an image file into a custom material
+var material1 = new THREE.MeshLambertMaterial({
+  map: loader.load('img/tooltipBatterySmall.png')
+});
+var geometry1 = new THREE.PlaneGeometry(5, 5, 1, 1);
+var mesh1 = new THREE.Mesh(geometry1, material1);
+mesh1.scale.set(0.4, 0.4, 0.4);
+//mesh1.position.set(0,0,0);
+mesh1.callback = function() { 
+	console.log("Clicked on the marker thing");
+	openNav();
+}
+targets.push(mesh1);
+markerRoot2.add(mesh1);
+// so image isnt black
+var light = new THREE.PointLight( 0xffffff, 1, 0 );
+light.position.set(1, 1, 100 );
+markerRoot2.add(light);
+})() // end of strange function
+
+onRenderFcts.push(function(){
+		renderer.render( scene, camera );
+	})
+
+// For raycasting
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
+
+function onDocumentMouseDown( event ) {
+
+	// Works
+	console.log("Something was clicked")
+
+    event.preventDefault();
+
+    mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+
+    raycaster.setFromCamera( mouse, camera );
+
+    var intersects = raycaster.intersectObjects( targets ); 
+
+    for ( var i = 0; i < intersects.length; i++ ) {
+
+
+        intersects[i].object.callback();
+
+    }
+
+}
+
+	// run the rendering loop
+	var lastTimeMsec= null
+	requestAnimationFrame(function animate(nowMsec){
+		// keep looping
+		requestAnimationFrame( animate );
+		// measure time
+		lastTimeMsec	= lastTimeMsec || nowMsec-1000/60
+		var deltaMsec	= Math.min(200, nowMsec - lastTimeMsec)
+		lastTimeMsec	= nowMsec
+		// call each update function
+		onRenderFcts.forEach(function(onRenderFct){
+			onRenderFct(deltaMsec/1000, nowMsec/1000)
+		})
+	})
+
+	// Add Event Listener for CLICK
+	window.addEventListener( 'click', onDocumentMouseDown, false );
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.4/gsap.min.js"></script>
+<script src="js/main.js"></script> 
+
+</body>
 </html>
