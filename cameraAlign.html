@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <head>
-	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0">
     <title>Car Mechanic AR</title>
-    
 	<!--include styles-->
     <link rel="stylesheet" href="https://use.typekit.net/nky6crf.css">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/site.css">
-	<!-- include three.js library -->
-	<script src='js/three.js'></script>
+	<!-- three js -->
+	<script src="https://ajax.googleapis.com/ajax/libs/threejs/r76/three.min.js"></script>
+	<!-- ar.js -->
+	<script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+	<script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.5.5/aframe/build/aframe-ar.js"></script>
 	<!-- include jsartookit -->
-    <script src="js/jsartoolkit5/build/artoolkit.min.js"></script>
-    <script src="js/jsartoolkit5/js/artoolkit.api.js"></script>
+    <script src="https://github.com/jeromeetienne/AR.js/tree/master/three.js/vendor/jsartoolkit5/js/artoolkit.three.js"></script>
+    <script src="https://github.com/jeromeetienne/AR.js/tree/master/three.js/vendor/jsartoolkit5/js/artoolkit.api.js"></script>
 	<!-- include threex.artoolkit -->
-	<script src="js/arJs/three.js/src/threex/threex-artoolkitsource.js"></script>
-    <script src="js/arJs/three.js/src/threex/threex-artoolkitcontext.js"></script>
-    <script src="js/arJs/three.js/src/threex/threex-arbasecontrols.js"></script>
-    <script src="js/arJs/three.js/src/threex/threex-armarkercontrols.js"></script>
-	<!--GLTF LOADER-->
-	<script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
+	<script src="https://github.com/jeromeetienne/AR.js/tree/master/three.js/src/threex/threex-artoolkitsource.js"></script>
+    <script src="https://github.com/jeromeetienne/AR.js/tree/master/three.js/src/threex/threex-artoolkitcontext.js"></script>
+    <script src="https://github.com/jeromeetienne/AR.js/tree/master/three.js/src/threex/threex-arbasecontrols.js"></script>
+	<script src="https://github.com/jeromeetienne/AR.js/tree/master/three.js/src/threex/threex-armarkercontrols.js"></script>
 </head>
 
 <body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
@@ -29,6 +29,7 @@
 		  <p>Check the oil level and refill oil if needed</p>
 		  <img src="img/oil.png">
 		  <div class="buttons buttonsDropDown">
+			  <!-- check what this button does-->
 			<button id="buttonMoreInformation" class="button buttonPositive">Start</button>
 		  </div>
 		  <button id="buttonBack" class="buttonBack"></button>
@@ -104,7 +105,7 @@
 	//////////////////////////////////////////////////////////////////////////////////
 
 	// Create a camera COMMENT IN ADD CAMERA???
-	var camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
+	var camera = new THREE.PerspectiveCamera(70, 2, 0.1, 5);
 	//camera.position.set( 0, 300, 500 );
 	scene.add(camera);
 	
@@ -137,7 +138,7 @@
 	// create atToolkitContext
 	arToolkitContext = new THREEx.ArToolkitContext({
 		cameraParametersUrl: 'js/arJS/data/data/camera_para.dat',
-		detectionMode: 'mono'
+		detectionMode: 'mono',
 	});
 	
 	// copy projection matrix to camera when initialization complete
@@ -174,11 +175,9 @@ var loader = new THREE.TextureLoader();
 var material = new THREE.MeshLambertMaterial({
   map: loader.load('img/tooltipOilSmall.png')
 });
-var geometry = new THREE.PlaneGeometry(5, 5, 1, 1);
+var geometry = new THREE.PlaneGeometry(2, 2, 1, 1);
 var mesh = new THREE.Mesh(geometry, material);
-mesh.scale.set(0.4, 0.4, 0.4);
-//mesh1.position.set(0,0,0);
-mesh.callback = function() { 
+mesh.raycast = function() { 
 	console.log("Clicked on the marker thing");
 	openNav();
 }
@@ -186,7 +185,7 @@ targets.push(mesh);
 markerRoot1.add(mesh);
 // so image isnt black
 var light = new THREE.PointLight( 0xffffff, 1, 0 );
-light.position.set(1, 1, 100 );
+light.position.set(1, 1, 10 );
 markerRoot1.add(light);
 
 //////////////////////////////////////////////////////////////////////////////
@@ -209,11 +208,9 @@ var loader = new THREE.TextureLoader();
 var material1 = new THREE.MeshLambertMaterial({
   map: loader.load('img/tooltipBatterySmall.png')
 });
-var geometry1 = new THREE.PlaneGeometry(5, 5, 1, 1);
+var geometry1 = new THREE.PlaneGeometry(2, 2, 1, 1);
 var mesh1 = new THREE.Mesh(geometry1, material1);
-mesh1.scale.set(0.4, 0.4, 0.4);
-//mesh1.position.set(0,0,0);
-mesh1.callback = function() { 
+mesh1.raycast = function() { 
 	console.log("Clicked on the marker thing");
 	openNav();
 }
@@ -246,13 +243,6 @@ function onDocumentMouseDown( event ) {
     raycaster.setFromCamera( mouse, camera );
 
     var intersects = raycaster.intersectObjects( targets ); 
-
-    for ( var i = 0; i < intersects.length; i++ ) {
-
-
-        intersects[i].object.callback();
-
-    }
 
 }
 
