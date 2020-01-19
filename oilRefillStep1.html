@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <head>
-	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0">
     <title>Car Mechanic AR</title>
-    
 	<!--include styles-->
     <link rel="stylesheet" href="https://use.typekit.net/nky6crf.css">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/site.css">
-	<!-- include three.js library -->
-	<script src='js/three.js'></script>
+	<!-- three js -->
+	<script src="https://ajax.googleapis.com/ajax/libs/threejs/r76/three.min.js"></script>
+	<!-- ar.js -->
+	<script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+	<script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.5.5/aframe/build/aframe-ar.js"></script>
 	<!-- include jsartookit -->
-    <script src="js/jsartoolkit5/build/artoolkit.min.js"></script>
-    <script src="js/jsartoolkit5/js/artoolkit.api.js"></script>
+    <script src="https://github.com/jeromeetienne/AR.js/tree/master/three.js/vendor/jsartoolkit5/js/artoolkit.three.js"></script>
+    <script src="https://github.com/jeromeetienne/AR.js/tree/master/three.js/vendor/jsartoolkit5/js/artoolkit.api.js"></script>
 	<!-- include threex.artoolkit -->
-	<script src="js/arJs/three.js/src/threex/threex-artoolkitsource.js"></script>
-    <script src="js/arJs/three.js/src/threex/threex-artoolkitcontext.js"></script>
-    <script src="js/arJs/three.js/src/threex/threex-arbasecontrols.js"></script>
-    <script src="js/arJs/three.js/src/threex/threex-armarkercontrols.js"></script>
-	<!--GLTF LOADER-->
-	<script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
+	<script src="https://github.com/jeromeetienne/AR.js/tree/master/three.js/src/threex/threex-artoolkitsource.js"></script>
+    <script src="https://github.com/jeromeetienne/AR.js/tree/master/three.js/src/threex/threex-artoolkitcontext.js"></script>
+    <script src="https://github.com/jeromeetienne/AR.js/tree/master/three.js/src/threex/threex-arbasecontrols.js"></script>
+	<script src="https://github.com/jeromeetienne/AR.js/tree/master/three.js/src/threex/threex-armarkercontrols.js"></script>
 </head>
 
 <body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
@@ -32,15 +32,13 @@
 			<button class="button buttonPositive" onclick="window.location.href = 'oilRefillStep2.html'">I need to refill</button>
 			<button class="button buttonNegative" onclick="window.location.href = 'menu.html'">I don't need to refill</button>
 		  </div>
-		  <button id="buttonBack" class="buttonBack"></button>
+		  <button id="buttonBack" class="buttonBack" onclick="closeNav()"></button>
 		</div>
 	  </header>
   
   
 		<div id="interactionIndicator"></div>
-		<a href="menu.html">
-		  <div class="buttonPrevious"><i data-feather="chevron-left"></i></div>
-		</a>
+		  <div class="buttonPrevious" onclick="window.location.href = 'menu.html'" style="z-index: 10;"><i data-feather="chevron-left"></i></div>
 		<div class="pagination">
 		  <span class="paginationTheme">Oil Refill</span>
 		  <span class="pnElement pnActive">1</span>
@@ -78,7 +76,9 @@
 	//////////////////////////////////////////////////////////////////////////////////
 
 	// Create a camera
-	var camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
+	//var camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
+	var camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeighteight / 2, window.innerHeight / - 2, 1, 100 );
+
 	scene.add(camera);
 	
 	////////////////////////////////////////////////////////////
@@ -141,13 +141,13 @@ var markerControls = new THREEx.ArMarkerControls(arToolkitContext, markerRoot2, 
 })
 
 // add a yellow circle in the center of the marker
-var geometry = new THREE.CircleGeometry(2, 10);
+var geometry = new THREE.CircleGeometry(1.5, 10);
 var material = new THREE.MeshBasicMaterial( { 
   color: 0xffff00,
-  opacity: 0.5, 
+  opacity: 0.3, 
 } );
 var mesh	= new THREE.Mesh( geometry, material );
-// if openNav not working, try moreInformation
+mesh.rotation.x += 30.0;
 mesh.callback = function() { 
 	console.log("Clicked on the marker thing");
 	openNav();
@@ -176,14 +176,13 @@ function onDocumentMouseDown( event ) {
 
     raycaster.setFromCamera( mouse, camera );
 
-    var intersects = raycaster.intersectObjects( targets ); 
+	var intersects = raycaster.intersectObjects( targets, true ); 
+	
+	for ( var i = 0; i < intersects.length; i++ ) {
 
-    for ( var i = 0; i < intersects.length; i++ ) {
+		intersects[ i ].object.callback();
+	}
 
-
-        intersects[i].object.callback();
-
-    }
 
 }
 
