@@ -30,9 +30,9 @@
 		  <img src="img/oil.png">
 		  <div class="buttons buttonsDropDown">
 			  <!-- check what this button does-->
-			<button id="buttonMoreInformation" class="button buttonPositive">Start</button>
+			<button id="buttonMoreInformation" class="button buttonPositive" onclick="moreInformation()">Start</button>
 		  </div>
-		  <button id="buttonBack" class="buttonBack"></button>
+		  <button id="buttonBack" class="buttonBack" onclick="closeNav()"></button>
 		</div>
 		<div class="headerMoreInformation">
 		  <h3>Oil Refill</h3>
@@ -60,17 +60,23 @@
 				<button class="button buttonPositive" onclick="window.location.href = 'oilRefillStep1.html'">Start</button>
 			
 		  </div>
-		  <button id="buttonBackMore" class="buttonBack"></button>
+		  <button id="buttonBackMore" class="buttonBack" onclick="t5.reverse()"></button>
 		</div>
 	  </header>
 		<a href="taskSelection.html">
 		  <div class="scanIndicator"></div>
 		</a>
 		<a href="menu.html">
-		  <div class="buttonPrevious"><i data-feather="chevron-left"></i></div>
+			<div class="buttonPrevious" onclick="window.location.href = 'menu.html'" style="z-index: 10;"><i data-feather="chevron-left"></i></div>
 		</a>
 
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.4/gsap.min.js"></script>
+		<script src="js/main.js"></script> 
+
 <script>
+
+	var t5 = gsap.timeline;
 // init renderer
     var renderer	= new THREE.WebGLRenderer({
 		antialias	: true,
@@ -104,7 +110,6 @@
 	//		Initialize a basic camera
 	//////////////////////////////////////////////////////////////////////////////////
 
-	// Create a camera COMMENT IN ADD CAMERA???
 	var camera = new THREE.PerspectiveCamera(70, 2, 0.1, 5);
 	//camera.position.set( 0, 300, 500 );
 	scene.add(camera);
@@ -173,11 +178,11 @@ var loader = new THREE.TextureLoader();
 
 // Load an image file into a custom material
 var material = new THREE.MeshLambertMaterial({
-  map: loader.load('img/tooltipOilSmall.png')
+  map: loader.load('img/tooltipBatterySmall.png')
 });
-var geometry = new THREE.PlaneGeometry(2, 2, 1, 1);
+var geometry = new THREE.PlaneGeometry(3, 3, 1, 1);
 var mesh = new THREE.Mesh(geometry, material);
-mesh.raycast = function() { 
+mesh.callback = function() { 
 	console.log("Clicked on the marker thing");
 	openNav();
 }
@@ -206,11 +211,11 @@ var loader = new THREE.TextureLoader();
 
 // Load an image file into a custom material
 var material1 = new THREE.MeshLambertMaterial({
-  map: loader.load('img/tooltipBatterySmall.png')
+	map: loader.load('img/tooltipOilSmall.png')
 });
-var geometry1 = new THREE.PlaneGeometry(2, 2, 1, 1);
+var geometry1 = new THREE.PlaneGeometry(3, 3, 1, 1);
 var mesh1 = new THREE.Mesh(geometry1, material1);
-mesh1.raycast = function() { 
+mesh1.callback = function() { 
 	console.log("Clicked on the marker thing");
 	openNav();
 }
@@ -242,7 +247,12 @@ function onDocumentMouseDown( event ) {
 
     raycaster.setFromCamera( mouse, camera );
 
-    var intersects = raycaster.intersectObjects( targets ); 
+	var intersects = raycaster.intersectObjects( targets ); 
+	
+	for ( var i = 0; i < intersects.length; i++ ) {
+
+		intersects[ i ].object.callback();
+	}
 
 }
 
@@ -264,11 +274,6 @@ function onDocumentMouseDown( event ) {
 	// Add Event Listener for CLICK
 	window.addEventListener( 'click', onDocumentMouseDown, false );
 </script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.4/gsap.min.js"></script>
-<script src="js/main.js"></script> 
 
 </body>
 </html>

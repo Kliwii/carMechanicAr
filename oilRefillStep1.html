@@ -32,15 +32,13 @@
 			<button class="button buttonPositive" onclick="window.location.href = 'oilRefillStep2.html'">I need to refill</button>
 			<button class="button buttonNegative" onclick="window.location.href = 'menu.html'">I don't need to refill</button>
 		  </div>
-		  <button id="buttonBack" class="buttonBack"></button>
+		  <button id="buttonBack" class="buttonBack" onclick="closeNav()"></button>
 		</div>
 	  </header>
   
   
 		<div id="interactionIndicator"></div>
-		<a href="menu.html">
-		  <div class="buttonPrevious"><i data-feather="chevron-left"></i></div>
-		</a>
+		  <div class="buttonPrevious" onclick="window.location.href = 'menu.html'" style="z-index: 10;"><i data-feather="chevron-left"></i></div>
 		<div class="pagination">
 		  <span class="paginationTheme">Oil Refill</span>
 		  <span class="pnElement pnActive">1</span>
@@ -78,7 +76,9 @@
 	//////////////////////////////////////////////////////////////////////////////////
 
 	// Create a camera
-	var camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
+	//var camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
+	var camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeighteight / 2, window.innerHeight / - 2, 1, 100 );
+
 	scene.add(camera);
 	
 	////////////////////////////////////////////////////////////
@@ -141,14 +141,14 @@ var markerControls = new THREEx.ArMarkerControls(arToolkitContext, markerRoot2, 
 })
 
 // add a yellow circle in the center of the marker
-var geometry = new THREE.CircleGeometry(1, 10);
+var geometry = new THREE.CircleGeometry(1.5, 10);
 var material = new THREE.MeshBasicMaterial( { 
   color: 0xffff00,
-  opacity: 0.5, 
+  opacity: 0.3, 
 } );
 var mesh	= new THREE.Mesh( geometry, material );
-mesh.rotatex = 45.0;
-mesh.raycast = function() { 
+mesh.rotation.x += 30.0;
+mesh.callback = function() { 
 	console.log("Clicked on the marker thing");
 	openNav();
 }
@@ -176,7 +176,12 @@ function onDocumentMouseDown( event ) {
 
     raycaster.setFromCamera( mouse, camera );
 
-    var intersects = raycaster.intersectObjects( targets ); 
+	var intersects = raycaster.intersectObjects( targets, true ); 
+	
+	for ( var i = 0; i < intersects.length; i++ ) {
+
+		intersects[ i ].object.callback();
+	}
 
 
 }
