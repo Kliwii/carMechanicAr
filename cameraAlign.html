@@ -60,7 +60,7 @@
 				<button class="button buttonPositive" onclick="window.location.href = 'oilRefillStep1.html'">Start</button>
 			
 		  </div>
-		  <button id="buttonBackMore" class="buttonBack" onclick="t5.reverse()"></button>
+		  <button id="buttonBackMore" class="buttonBack" onclick="tlMore.reverse();"></button>
 		</div>
 	  </header>
 		<a href="taskSelection.html">
@@ -213,7 +213,7 @@ var loader = new THREE.TextureLoader();
 var material1 = new THREE.MeshLambertMaterial({
 	map: loader.load('img/tooltipOilSmall.png')
 });
-var geometry1 = new THREE.PlaneGeometry(3, 3, 1, 1);
+var geometry1 = new THREE.PlaneGeometry(4, 4, 1, 1);
 var mesh1 = new THREE.Mesh(geometry1, material1);
 mesh1.callback = function() { 
 	console.log("Clicked on the marker thing");
