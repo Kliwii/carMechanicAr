@@ -180,7 +180,7 @@ var loader = new THREE.TextureLoader();
 var material = new THREE.MeshLambertMaterial({
   map: loader.load('img/tooltipBatterySmall.png')
 });
-var geometry = new THREE.PlaneGeometry(3, 3, 1, 1);
+var geometry = new THREE.PlaneGeometry(5, 5, 1, 1);
 var mesh = new THREE.Mesh(geometry, material);
 mesh.callback = function() { 
 	console.log("Clicked on the marker thing");
@@ -213,7 +213,7 @@ var loader = new THREE.TextureLoader();
 var material1 = new THREE.MeshLambertMaterial({
 	map: loader.load('img/tooltipOilSmall.png')
 });
-var geometry1 = new THREE.PlaneGeometry(4, 4, 1, 1);
+var geometry1 = new THREE.PlaneGeometry(5, 5, 1, 1);
 var mesh1 = new THREE.Mesh(geometry1, material1);
 mesh1.callback = function() { 
 	console.log("Clicked on the marker thing");
